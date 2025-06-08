@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>View Bills | Nursery Mitra</title>
+  <link href="https://fonts.googleapis.com/css2?family=Varela+Round&display=swap" rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Varela Round', sans-serif;
+      background-color: #f9fbf9;
+      color: #2e7d32;
+      display: flex;
+      height: 100vh;
+    }
+
+    .sidebar {
+      width: 220px;
+      background-color: #ffffff;
+      padding: 20px;
+      box-shadow: 2px 0 12px rgba(0, 0, 0, 0.05);
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .sidebar h2 {
+      font-size: 1.3rem;
+      margin-bottom: 20px;
+      color: #276427;
+    }
+
+    .sidebar a {
+      text-decoration: none;
+      color: #2e7d32;
+      font-weight: 600;
+      padding: 10px 15px;
+      border-radius: 8px;
+      transition: background-color 0.3s ease;
+    }
+
+    .sidebar a:hover {
+      background-color: #eaf5ea;
+    }
+
+    .main-content {
+      flex-grow: 1;
+      padding: 30px;
+      overflow-y: auto;
+    }
+
+    .main-content h1 {
+      margin-bottom: 20px;
+      color: #276427;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background-color: #ffffff;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+    }
+
+    th, td {
+      padding: 12px 15px;
+      border-bottom: 1px solid #e0f0e0;
+      text-align: left;
+      font-size: 0.95rem;
+    }
+
+    th {
+      background-color: #eaf5ea;
+      color: #276427;
+    }
+
+    tr:hover {
+      background-color: #f1f9f1;
+    }
+
+    .action-btn {
+      margin-right: 8px;
+      background-color: #38ae38;
+      color: white;
+      padding: 6px 10px;
+      font-size: 0.85rem;
+      font-weight: bold;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .action-btn.print {
+      background-color: #2e7d32;
+    }
+
+    @media (max-width: 600px) {
+      body {
+        flex-direction: column;
+        height: auto;
+      }
+      .sidebar {
+        width: 100%;
+        display: flex;
+        justify-content: space-around;
+        padding: 15px 10px;
+      }
+      .main-content {
+        padding: 20px 15px;
+      }
+
+      table, thead, tbody, th, td, tr {
+        display: block;
+      }
+
+      thead {
+        display: none;
+      }
+
+      tr {
+        margin-bottom: 15px;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        padding: 10px;
+      }
+
+      td {
+        text-align: right;
+        padding-left: 50%;
+        position: relative;
+      }
+
+      td::before {
+        content: attr(data-label);
+        position: absolute;
+        left: 10px;
+        top: 12px;
+        font-weight: bold;
+        color: #276427;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <aside class="sidebar">
+    <h2>Billing Menu</h2>
+    <a href="bills.html">Create Bill</a>
+    <a href="view-bill.html">View Bill</a>
+    <a href="index.html">Back to Home</a>
+  </aside>
+
+  <main class="main-content">
+    <h1>View Bills</h1>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Bill ID</th>
+          <th>Customer</th>
+          <th>Product</th>
+          <th>Qty</th>
+          <th>Rate (₹)</th>
+          <th>Total (₹)</th>
+          <th>Mode</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="billList">
+        <tr id="bill-001">
+          <td>001</td>
+          <td>Tanmay</td>
+          <td>Rose Plant</td>
+          <td>2</td>
+          <td>150</td>
+          <td>300</td>
+          <td>UPI</td>
+          <td>
+            <button class="action-btn" onclick="downloadBillPDF('bill-001')">Download PDF</button>
+            <button class="action-btn print" onclick="printBill('bill-001')">Print</button>
+          </td>
+        </tr>
+        <tr id="bill-002">
+          <td>002</td>
+          <td>Aarav</td>
+          <td>Soil Pack</td>
+          <td>5</td>
+          <td>50</td>
+          <td>250</td>
+          <td>Cash</td>
+          <td>
+            <button class="action-btn" onclick="downloadBillPDF('bill-002')">Download PDF</button>
+            <button class="action-btn print" onclick="printBill('bill-002')">Print</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </main>
+
+  <script>
+    async function downloadBillPDF(rowId) {
+      const { jsPDF } = window.jspdf;
+      const element = document.getElementById(rowId);
+      const clone = element.cloneNode(true);
+      const wrapper = document.createElement("table");
+      const thead = document.createElement("thead");
+      const thRow = document.createElement("tr");
+      const headers = ["Bill ID", "Customer", "Product", "Qty", "Rate (₹)", "Total (₹)", "Mode"];
+
+      headers.forEach(h => {
+        const th = document.createElement("th");
+        th.textContent = h;
+        th.style.border = "1px solid #ccc";
+        th.style.padding = "8px";
+        thRow.appendChild(th);
+      });
+
+      thead.appendChild(thRow);
+      wrapper.appendChild(thead);
+      wrapper.appendChild(clone);
+
+      wrapper.style.borderCollapse = "collapse";
+      wrapper.style.width = "100%";
+
+      const container = document.createElement("div");
+      container.appendChild(wrapper);
+      document.body.appendChild(container);
+
+      const canvas = await html2canvas(container);
+      const imgData = canvas.toDataURL("image/png");
+      const pdf = new jsPDF();
+      const imgProps = pdf.getImageProperties(imgData);
+      const pdfWidth = pdf.internal.pageSize.getWidth();
+      const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+      pdf.addImage(imgData, 'PNG', 10, 10, pdfWidth - 20, pdfHeight);
+      pdf.save(`${rowId}.pdf`);
+      document.body.removeChild(container);
+    }
+
+    function printBill(rowId) {
+      const row = document.getElementById(rowId);
+      const headers = ["Bill ID", "Customer", "Product", "Qty", "Rate (₹)", "Total (₹)", "Mode"];
+      const cells = Array.from(row.children).slice(0, 7); // exclude action buttons
+      let printWindow = window.open('', '', 'height=600,width=800');
+      printWindow.document.write('<html><head><title>Print Bill</title>');
+      printWindow.document.write('<style>table{width:100%;border-collapse:collapse}th,td{border:1px solid #ccc;padding:10px;text-align:left}</style>');
+      printWindow.document.write('</head><body>');
+      printWindow.document.write('<h2>Nursery Mitra - Bill Details</h2>');
+      printWindow.document.write('<table><thead><tr>');
+      headers.forEach(h => printWindow.document.write(`<th>${h}</th>`));
+      printWindow.document.write('</tr></thead><tbody><tr>');
+      cells.forEach(c => printWindow.document.write(`<td>${c.innerText}</td>`));
+      printWindow.document.write('</tr></tbody></table>');
+      printWindow.document.write('</body></html>');
+      printWindow.document.close();
+      printWindow.focus();
+      printWindow.print();
+      printWindow.close();
+    }
+  </script>
+
+</body>
+</html>
