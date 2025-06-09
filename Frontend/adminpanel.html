@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin Panel | Nursery Mitra</title>
+  <link href="https://fonts.googleapis.com/css2?family=Varela+Round&display=swap" rel="stylesheet" />
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Varela Round', sans-serif;
+      background-color: #f9fbf9;
+      color: #2e7d32;
+      display: flex;
+      height: 100vh;
+    }
+
+    .sidebar {
+      width: 220px;
+      background-color: #ffffff;
+      padding: 20px;
+      box-shadow: 2px 0 12px rgba(0, 0, 0, 0.05);
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .sidebar h2 {
+      font-size: 1.3rem;
+      margin-bottom: 20px;
+      color: #276427;
+    }
+
+    .sidebar a {
+      text-decoration: none;
+      color: #2e7d32;
+      font-weight: 600;
+      padding: 10px 15px;
+      border-radius: 8px;
+      transition: background-color 0.3s ease;
+    }
+
+    .sidebar a:hover {
+      background-color: #eaf5ea;
+    }
+
+    .main-content {
+      flex-grow: 1;
+      padding: 30px;
+      overflow-y: auto;
+    }
+
+    .main-content h1 {
+      margin-bottom: 20px;
+      color: #276427;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+
+    input[type="text"],
+    input[type="number"],
+    textarea {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #cce5cc;
+      border-radius: 6px;
+    }
+
+    button {
+      background-color: #38ae38;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      font-weight: 600;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #2e7d32;
+    }
+    
+        .form-container {
+      flex: 2;
+      background-color: white;
+      padding: 1rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .form-container h1 {
+      margin-bottom: 0.5rem;
+    }
+
+    .form-container input {
+      width: 100%;
+      padding: 1rem;
+      margin: 0.5rem 0;
+      border-radius: 40px;
+      border: 1px solid #ddd;
+    }
+
+    .form-row {
+      display: flex;
+      gap: 1rem;
+    }
+
+    .form-container button {
+      background-color: #4caf50;
+      color: white;
+      padding: 1rem 2rem;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      margin-top: 1rem;
+      width: 170px;
+      place-self: center;
+    }
+
+    .password-container {
+      position: relative;
+       width: 30%;
+
+    }
+
+    .password-container i {
+      position: absolute;
+      right: 1.5rem;
+      top: 50%;
+      transform: translateY(-50%);
+      cursor: pointer;
+    }
+
+    .role-container select{
+        width: 30%;
+        border-radius: 40px;
+        border: 1px solid #ddd;
+        padding: 1rem;
+    }
+
+    .role-container label{
+        padding: 1rem;
+    }
+  </style>
+</head>
+<body>
+
+  <aside class="sidebar">
+    <h2>Admin Panel</h2>
+    <a href="adminpanel.html">Register User</a>
+    <a href="view-user.html">View Users</a>
+    <a href="delivered-orders.html">Logout</a>
+    
+  </aside>
+
+  <main class="main-content">
+    <h1>Register</h1>
+
+    <div class="form-container">
+      <form action="">
+      <input type="email" placeholder="Email" />
+      <div class="form-row">
+        <input type="text" placeholder="Full Name" />
+        <input type="text" placeholder="Nursery Name" />
+      </div>
+      
+      <div class="password-container">
+        <input type="password" placeholder="Password" />
+        <i>👁️</i> <!-- Icon placeholder -->
+      </div>
+      <div class="role-container"> 
+        <label >Select Role</label>
+        <select>
+            <option value="" selected disabled>Select Role</option>
+            <option value="">Admin</option>
+            <option value="">User</option>
+        </select>
+    </div>
+
+      <button id="Signup-btn">Register User</button>
+      </form>
+    </div>
+  </main>
+
+</body>
+</html>
