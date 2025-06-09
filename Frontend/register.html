@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign Up Form</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    body {
+      margin: 0;
+      background-color: #f8f9fc;
+    }
+
+    .container {
+      display: flex;
+      height: 100vh;
+    }
+
+    .sidebar {
+      flex: 1;
+  background: linear-gradient(to right, #dcedc8, #a8e6cf);
+      color: black;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 2rem;
+    }
+
+    .sidebar h2 {
+      font-size: 2rem;
+    }
+
+    .sidebar p {
+      text-align: center;
+      margin: 1rem 0;
+    }
+
+    .sidebar button {
+      background: transparent;
+      border: 2px solid white;
+      color: white;
+      padding: 0.75rem 2rem;
+      border-radius: 30px;
+      cursor: pointer;
+    }
+
+    .form-container {
+      flex: 2;
+      background-color: white;
+      padding: 3rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .form-container h1 {
+      margin-bottom: 0.5rem;
+    }
+
+    .form-container input {
+      width: 100%;
+      padding: 1rem;
+      margin: 0.5rem 0;
+      border-radius: 40px;
+      border: 1px solid #ddd;
+    }
+
+    .form-row {
+      display: flex;
+      gap: 1rem;
+    }
+
+    .form-container button {
+      background-color: #4caf50;
+      color: white;
+      padding: 1rem 2rem;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      margin-top: 1rem;
+      width: 150px;
+      align-self: center;
+    }
+
+    .password-container {
+      position: relative;
+    }
+
+    .password-container i {
+      position: absolute;
+      right: 1.5rem;
+      top: 50%;
+      transform: translateY(-50%);
+      cursor: pointer;
+    }
+
+   
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <div class="sidebar">
+      <h2>Welcome Back!</h2>
+      
+    </div>
+    <div class="form-container">
+      <form action="">
+        <h1>Create An Account</h1>
+      <input type="email" placeholder="Email" />
+      <div class="form-row">
+        <input type="text" placeholder="Name" />
+        <input type="text" placeholder="Nursery Name" />
+      </div>
+      
+      <div class="password-container">
+        <input type="password" placeholder="Password" />
+        <i>👁️</i> <!-- Icon placeholder -->
+      </div>
+      <button id="Signup-btn">Sign Up</button>
+      </form>
+    </div>
+  </div>
+
+</body>
+</html>
